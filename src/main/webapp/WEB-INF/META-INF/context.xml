@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+	<Environment name="java.naming.factory.initial" value="org.apache.naming.java.javaURLContextFactory" type="java.lang.String"/>
+	<Environment name="java.naming.factory.url.pkgs" value="org.apache.naming" type="java.lang.String"/>
+
+
+	<Resource name="jdbc/supermarket" auth="Container"
+		type="javax.sql.DataSource" maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+		username="root" password="ol12345" driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/supermarket" />
+</Context>
