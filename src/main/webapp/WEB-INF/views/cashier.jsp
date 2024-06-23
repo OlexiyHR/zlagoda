@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Manager Main Menu Manager (Zlagoda)</title>
+    <title>Cashier Main Menu Manager (Zlagoda)</title>
     <style>
          body {
             font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
         }
         .container {
             max-width: 600px;
-            margin: 100px auto; /* Вирівнює контейнер по центру горизонтально */
+            margin: 50px auto; /* Вирівнює контейнер по центру горизонтально */
             padding: 20px;
             background-color: #fff;
             border: 1px solid #ddd;
@@ -79,7 +79,7 @@
 <body>
     <div class="container">
         <p class="subtitle">Zlagoda</p>
-        <h1>Main Menu Manager</h1>
+        <h1>Main Menu Cashier</h1>
         <div class="button-container">
             <form action="/show-number-buyers" method="post">
                 <button type="submit" class="menu-button">Show number of buyers of each product</button>
@@ -88,26 +88,26 @@
                 <button type="submit" class="menu-button">Show sellers who sold products to all customers of another</button>
             </form>
             <form action="/employee" method="post">
-                <button type="submit" class="menu-button">Manage employees</button>
+                <button type="submit" class="menu-button">Add new employee</button>
             </form>
             <form action="/regular-customer" method="post">
-                <button type="submit" class="menu-button">Manage regular customer</button>
+                <button type="submit" class="menu-button">Add new regular customer</button>
             </form>
             <form action="/product-categories" method="post">
-                <button type="submit" class="menu-button">Manage product categories</button>
+                <button type="submit" class="menu-button">Add new product categories</button>
             </form>
             <form action="/product" method="post">
-                <button type="submit" class="menu-button">Manage product</button>
+                <button type="submit" class="menu-button">Add new product</button>
             </form>
             <form action="/in-store-product" method="post">
-                <button type="submit" class="menu-button">Manage in-store product</button>
+                <button type="submit" class="menu-button">Add new in-store product</button>
             </form>
         </div>
         <div class="blue-button-container">
             <form action="/user-profile" method="post">
                 <button type="submit" class="blue-button">User profile</button>
             </form>
-            <form action="/manager" method="post">
+            <form action="/cashier" method="post">
                 <button type="submit" class="blue-button">Log out</button>
             </form>
         </div>

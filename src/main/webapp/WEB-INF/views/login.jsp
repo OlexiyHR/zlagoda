@@ -6,19 +6,24 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            text-align: center;
+            background-color: #add8e6;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .login-form {
             width: 300px;
-            margin: 100px auto;
             background-color: #fff;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            text-align: center;
         }
         .login-form h2 {
             margin-bottom: 20px;
+            color: #333;
         }
         .login-form input[type="email"],
         .login-form input[type="password"] {
@@ -38,6 +43,7 @@
             border-radius: 3px;
             cursor: pointer;
             font-size: 14px;
+            transition: background-color 0.3s;
         }
         .login-form button:hover {
             background-color: #45a049;

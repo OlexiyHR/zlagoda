@@ -47,7 +47,31 @@ public class ManagerController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (FilterAccess.getInstance().filterAccess(request, "Менеджер"))  request.getRequestDispatcher("/WEB-INF/views/manager.jsp").forward(request, response);
+        if (FilterAccess.getInstance().filterAccess(request, "Менеджер")) {
+            request.getRequestDispatcher("/WEB-INF/views/manager.jsp").forward(request, response);
+        }
+        else if (FilterAccess.getInstance().filterAccess(request, "Касир")){
+            response.sendRedirect("/cashier");
+        }
+        else response.sendRedirect("/login");
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpWrapper httpWrapper = new HttpWrapper(request, response);
+        String commandKey = CommandKeyGenerator.generateCommandKeyFromRequest(request);
+        Command command = CommandFactory.getCommand(commandKey);
+        try {
+            String commandResultedResource = command.execute(request, response);
+            response.sendRedirect("/login");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

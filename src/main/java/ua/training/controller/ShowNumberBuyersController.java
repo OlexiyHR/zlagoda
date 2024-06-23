@@ -6,6 +6,7 @@ import ua.training.constants.Attribute;
 import ua.training.constants.ServletPath;
 import ua.training.controller.command.Command;
 import ua.training.controller.command.i18n.AppLocale;
+import ua.training.controller.filter.FilterAccess;
 import ua.training.controller.utils.CommandKeyGenerator;
 import ua.training.controller.utils.HttpWrapper;
 import ua.training.controller.utils.RedirectionManager;
@@ -42,22 +43,10 @@ public class ShowNumberBuyersController extends HttpServlet {
         getServletContext().setAttribute(Attribute.LOCALES, AppLocale.getAppLocales());
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        processRequest(request, response);
-    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        processRequest(request, response);
-    }
-
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
-        processRequest(req, resp);
+            processRequest(request, response);
     }
 
     /**

@@ -47,6 +47,7 @@ public class JdbcDaoFactory extends DaoFactory {
 	@Override
 	public DaoConnection getConnection() {
 		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "ol12345");
 			return new JdbcDaoConnection(connection);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -56,6 +57,7 @@ public class JdbcDaoFactory extends DaoFactory {
 	@Override
 	public UserDao createUserDao() {
 		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "ol12345");
 			return new JdbcUserDao(connection, true);
 		} catch (Exception e) {
 			throw new RuntimeException(e);

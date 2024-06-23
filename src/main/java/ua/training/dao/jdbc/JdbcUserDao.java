@@ -87,6 +87,7 @@ public class JdbcUserDao implements UserDao {
 	@Override
 	public Optional<User> getById(Long id) {
 		Optional<User> user = Optional.empty();
+		System.out.println(connection);
 		try (PreparedStatement query = connection.prepareStatement(GET_BY_ID)) {
 			query.setLong(1, id);
 			ResultSet resultSet = query.executeQuery();

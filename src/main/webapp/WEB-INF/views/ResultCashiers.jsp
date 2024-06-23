@@ -71,7 +71,7 @@
             <c:out value="${htmlTable}" escapeXml="false" />
         </div>
         <div class="button-container">
-            <form action="/some-other-action" method="post">
+            <form action="/manager" method="get">
                 <button type="submit" class="menu-button">Another Action</button>
             </form>
         </div>

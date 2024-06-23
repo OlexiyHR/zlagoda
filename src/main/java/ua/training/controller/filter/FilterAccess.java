@@ -12,6 +12,7 @@ public class FilterAccess {
     public boolean filterAccess(HttpServletRequest request, String required) {
         HttpSession session = request.getSession();
         User user = SessionManager.getInstance().getUserFromSession(session);
+        if (user == null) return false;
         return (user.getRole().getValue().equals(required));
     }
 }

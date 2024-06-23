@@ -58,7 +58,7 @@
 <body>
     <div class="container">
         <h1>Employee Sales Query</h1>
-        <p>This request retrieves sellers who sold products to all customers to whom a specific seller, named [name], sold</p>
+        <p>This request retrieves sellers who sold products to all customers to whom a specific seller, named [name], sold.</p>
         <form action="/show-same-clients" method="get">
             <label for="name">Enter name:</label>
             <input type="text" id="name" name="name" required>

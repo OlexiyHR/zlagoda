@@ -6,6 +6,7 @@ import ua.training.controller.command.PageNotFoundCommand;
 import ua.training.controller.command.auth.GetLoginCommand;
 import ua.training.controller.command.auth.LogoutCommand;
 import ua.training.controller.command.auth.PostLoginCommand;
+import ua.training.controller.command.auth.PostLogoutCommand;
 import ua.training.controller.command.category.*;
 import ua.training.controller.command.dish.*;
 import ua.training.controller.command.i18n.ChangeLocaleCommand;
@@ -54,6 +55,21 @@ enum CommandEnum {
 			this.command = new PostLoginCommand(UserService.getInstance());
 		}
 	},
+
+	POST_LOGOUT {
+		{
+			this.key = "POST:/manager";
+			this.command = new PostLogoutCommand();
+		}
+	},
+
+	POST_LOGOUT1 {
+		{
+			this.key = "POST:/cashier";
+			this.command = new PostLogoutCommand();
+		}
+	},
+
 	POST_SHOW_NUMBERS{
 		{
 			this.key = "POST:/show-number-buyers";

@@ -83,7 +83,7 @@ public class LoginController extends HttpServlet {
             if (commandResultedResource.equals("Менеджер")){
                 response.sendRedirect("/manager");
             } else if (commandResultedResource.equals("Касир")){
-                request.getRequestDispatcher("/cashier/").forward(request, response);
+                response.sendRedirect("/cashier");
             }
         } catch (ServiceException ex) {
             LOGGER.error("Error has occured while command execution with key: " + commandKey);
