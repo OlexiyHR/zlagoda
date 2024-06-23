@@ -21,6 +21,7 @@ import ua.training.exception.ServiceException;
 import ua.training.controller.filter.FilterAccess;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +70,7 @@ public class ManagerController extends HttpServlet {
         try {
             String commandResultedResource = command.execute(request, response);
             response.sendRedirect("/login");
-        } catch (ParseException e) {
+        } catch (ParseException | SQLException e) {
             throw new RuntimeException(e);
         }
     }

@@ -15,6 +15,7 @@ import ua.training.controller.filter.FilterAccess;
 import ua.training.controller.utils.CommandKeyGenerator;
 import ua.training.controller.utils.HttpWrapper;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 @WebServlet("/cashier")
@@ -53,7 +54,7 @@ public class CashierController extends HttpServlet {
         try {
             String commandResultedResource = command.execute(request, response);
             response.sendRedirect("/login");
-        } catch (ParseException e) {
+        } catch (ParseException | SQLException e) {
             throw new RuntimeException(e);
         }
     }

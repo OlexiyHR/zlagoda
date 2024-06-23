@@ -6,7 +6,6 @@ import ua.training.constants.ServletPath;
 import ua.training.controller.command.Command;
 import ua.training.controller.utils.HttpWrapper;
 import ua.training.controller.utils.RedirectionManager;
-import ua.training.entity.Dish;
 import ua.training.locale.Message;
 import ua.training.service.CategoryService;
 import ua.training.service.ProductService;
@@ -18,24 +17,26 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SearchDishesByNameCommand implements Command {
+public class SearchProductsByNameCommand implements Command {
 
 	private final ProductService productService;
 	private final CategoryService categoryService;
 
-	public SearchDishesByNameCommand(ProductService productService, CategoryService categoryService) {
+	public SearchProductsByNameCommand(ProductService productService, CategoryService categoryService) {
 		this.productService = productService;
 		this.categoryService = categoryService;
 	}
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, SQLException {
 
 		String name = request.getParameter(Attribute.NAME);
 		List<String> errors = validateUserInput(name);
@@ -43,24 +44,17 @@ public class SearchDishesByNameCommand implements Command {
 		Map<String, String> urlParams;
 
 		if (!errors.isEmpty()) {
-			urlParams = new HashMap<>();
-			urlParams.put(Attribute.ERROR, errors.get(0));
-			RedirectionManager.getInstance().redirectWithParams(httpWrapper, ServletPath.ALL_DISHES, urlParams);
-			return RedirectionManager.REDIRECTION;
+			return "";
 		}
 
-		List<Dish> dishes= productService.searchDishesByName(name);
+		StringBuilder products = productService.searchProductsByName(name);
 
-		if (dishes.isEmpty()) {
-			urlParams = new HashMap<>();
-			urlParams.put(Attribute.ERROR, Message.DISH_IS_NOT_FOUND);
-			RedirectionManager.getInstance().redirectWithParams(httpWrapper, ServletPath.ALL_DISHES, urlParams);
-			return RedirectionManager.REDIRECTION;
+		if (countRows(products.toString()) < 2) {
+			return "No such product";
 		}
 
-		request.setAttribute(Attribute.CATEGORIES, categoryService.getAllCategories());
-		request.setAttribute(Attribute.DISHES, dishes);
-		return Page.ALL_DISHES_VIEW;
+
+		return products.toString();
 	}
 
 	private List<String> validateUserInput(String name) {
@@ -69,5 +63,16 @@ public class SearchDishesByNameCommand implements Command {
 		AbstractFieldValidatorHandler fieldValidator = FieldValidatorsChainGenerator.getFieldValidatorsChain();
 		fieldValidator.validateField(FieldValidatorKey.NAME, name, errors);
 		return errors;
+	}
+
+	private int countRows(String htmlTable) {
+		int rowCount = 0;
+		String[] rows = htmlTable.split("</tr>");
+		for (String row : rows) {
+			if (row.contains("<tr>")) {
+				rowCount++;
+			}
+		}
+		return rowCount;
 	}
 }

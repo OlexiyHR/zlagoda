@@ -54,7 +54,7 @@ public class SearchMostPopularDishesPerPeriodCommand implements Command {
 
 		if (dishes.isEmpty()) {
 			urlParams = new HashMap<>();
-			urlParams.put(Attribute.ERROR, Message.DISH_IS_NOT_FOUND);
+			urlParams.put(Attribute.ERROR, Message.PRODUCT_IS_NOT_FOUND);
 			RedirectionManager.getInstance().redirectWithParams(httpWrapper, ServletPath.ALL_DISHES, urlParams);
 			return RedirectionManager.REDIRECTION;
 		}

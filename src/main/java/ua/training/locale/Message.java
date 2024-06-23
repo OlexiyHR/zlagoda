@@ -23,7 +23,7 @@ public final class Message {
 	
 	public static final String USER_IS_NOT_FOUND = "supermarket.user.isNotFound";
 	public static final String CATEGORY_IS_NOT_FOUND = "supermarket.category.isNotFound";
-	public static final String DISH_IS_NOT_FOUND = "supermarket.dish.isNotFound";
+	public static final String PRODUCT_IS_NOT_FOUND = "supermarket.product.isNotFound";
 	public static final String ORDER_IS_NOT_FOUND = "supermarket.order.isNotFound";
 		
 	public static final String INVALID_NAME = "supermarket.error.invalidName";

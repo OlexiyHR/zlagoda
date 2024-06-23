@@ -20,12 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SearchDishesByCategoryCommand implements Command {
+public class SearchProductsByCategoryCommand implements Command {
 
 	private final ProductService productService;
 	private final CategoryService categoryService;
 
-	public SearchDishesByCategoryCommand(ProductService productService, CategoryService categoryService) {
+	public SearchProductsByCategoryCommand(ProductService productService, CategoryService categoryService) {
 		this.productService = productService;
 		this.categoryService = categoryService;
 	}
@@ -40,24 +40,17 @@ public class SearchDishesByCategoryCommand implements Command {
 		Map<String, String> urlParams;
 
 		if (!errors.isEmpty()) {
-			urlParams = new HashMap<>();
-			urlParams.put(Attribute.ERROR, errors.get(0));
-			RedirectionManager.getInstance().redirectWithParams(httpWrapper, ServletPath.ALL_DISHES, urlParams);
-			return RedirectionManager.REDIRECTION;
+			return "";
 		}
 
-		List<Dish> dishes = productService.searchDishesByCategoryName(category);
+		StringBuilder products = productService.searchDishesByCategoryName(category);
 
-		if (dishes.isEmpty()) {
-			urlParams = new HashMap<>();
-			urlParams.put(Attribute.ERROR, Message.DISH_IS_NOT_FOUND);
-			RedirectionManager.getInstance().redirectWithParams(httpWrapper, ServletPath.ALL_DISHES, urlParams);
-			return RedirectionManager.REDIRECTION;
+		if (countRows(products.toString()) < 2) {
+			return "No such product or category";
 		}
 
-		request.setAttribute(Attribute.CATEGORIES, categoryService.getAllCategories());
-		request.setAttribute(Attribute.DISHES, dishes);
-		return Page.ALL_DISHES_VIEW;
+
+		return products.toString();
 	}
 
 	private List<String> validateUserInput(String category) {
@@ -68,5 +61,16 @@ public class SearchDishesByCategoryCommand implements Command {
 		}
 
 		return errors;
+	}
+
+	private int countRows(String htmlTable) {
+		int rowCount = 0;
+		String[] rows = htmlTable.split("</tr>");
+		for (String row : rows) {
+			if (row.contains("<tr>")) {
+				rowCount++;
+			}
+		}
+		return rowCount;
 	}
 }

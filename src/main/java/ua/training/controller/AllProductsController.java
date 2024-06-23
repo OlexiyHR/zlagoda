@@ -15,7 +15,9 @@ import ua.training.controller.filter.FilterAccess;
 import ua.training.controller.utils.CommandKeyGenerator;
 import ua.training.controller.utils.HttpWrapper;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Objects;
 
 @WebServlet("/all-products")
 public class AllProductsController extends HttpServlet {
@@ -52,9 +54,12 @@ public class AllProductsController extends HttpServlet {
         Command command = CommandFactory.getCommand(commandKey);
         try {
             String commandResultedResource = command.execute(request, response);
-            request.setAttribute("htmlTable", commandResultedResource);
-            request.getRequestDispatcher("/WEB-INF/views/AllProducts.jsp").forward(request, response);
-        } catch (ParseException e) {
+            if(Objects.equals(commandResultedResource, "")) response.sendRedirect("/all-products");
+            else {
+                request.setAttribute("htmlTable", commandResultedResource);
+                request.getRequestDispatcher("/WEB-INF/views/AllProducts.jsp").forward(request, response);
+            }
+        } catch (ParseException | SQLException e) {
             throw new RuntimeException(e);
         }
     }

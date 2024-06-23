@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 /**
@@ -28,5 +29,5 @@ public interface Command {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException;
+	String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException, SQLException;
 }

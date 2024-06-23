@@ -22,6 +22,7 @@ import ua.training.controller.filter.FilterAccess;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +62,26 @@ public class UserProfileController extends HttpServlet {
         HttpWrapper httpWrapper = new HttpWrapper(request, response);
         HttpSession session = request.getSession();
         User user = SessionManager.getInstance().getUserFromSession(session);
-        request.setAttribute("UserProfile", user.toString());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Формування рядка з даними користувача
+        StringBuilder userProfileInfo = new StringBuilder();
+        userProfileInfo.append(user.getName()).append(" ")
+                .append(user.getSurname()).append(", ")
+                .append(user.getPathronymic()).append(", ")
+                .append(user.getEmail()).append(", ")
+                .append(user.getPhone()).append(", ")
+                .append(user.getSalary()).append(", ")
+                .append(dateFormat.format(user.getBirth())).append(", ")
+                .append(dateFormat.format(user.getStart())).append(", ")
+                .append(user.getRole()).append(", ")
+                .append(user.getCity()).append(", ")
+                .append(user.getStreet()).append(", ")
+                .append(user.getZip()).append(", ")
+                .append(user.getPassword());
+
+        // Передача цього рядка як атрибуту в запит
+        request.setAttribute("UserProfile", userProfileInfo.toString());
         request.getRequestDispatcher("/WEB-INF/views/UserProfile.jsp").forward(request, response);
     }
 

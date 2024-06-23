@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,13 +68,15 @@ public class ShowNumberBuyersController extends HttpServlet {
         try {
             String commandResultedResource = command.execute(request, response);
             request.setAttribute("htmlTable", commandResultedResource);
-            request.getRequestDispatcher("/WEB-INF/views/ResultNumbers.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/Results.jsp").forward(request, response);
 
 
         } catch (ParseException e) {
             throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
-        }
+    }
 }
 

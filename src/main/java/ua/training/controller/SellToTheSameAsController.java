@@ -46,8 +46,6 @@ public class SellToTheSameAsController extends HttpServlet {
 
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
-        System.out.println(name);
-        System.out.println(surname);
         StringBuilder htmlTable = new StringBuilder();
         htmlTable.append("<table border='1'>");
         htmlTable.append("<tr><th>id_employee</th><th>empl_surname</th><th>empl_name</th></tr>");
@@ -90,7 +88,7 @@ public class SellToTheSameAsController extends HttpServlet {
             htmlTable.append("</table>");
 
             request.setAttribute("htmlTable", htmlTable.toString());
-            request.getRequestDispatcher("/WEB-INF/views/ResultCashiers.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/Results.jsp").forward(request, response);
 
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
@@ -139,7 +137,7 @@ public class SellToTheSameAsController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/ResultNumbers.jsp").forward(request, response);
 
 
-        } catch (ParseException e) {
+        } catch (ParseException | SQLException e) {
             throw new RuntimeException(e);
         }
 

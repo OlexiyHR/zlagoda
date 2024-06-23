@@ -37,19 +37,21 @@
             justify-content: center;
         }
         .menu-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 4px;
-            flex-grow: 1;
-            flex-basis: calc(50% - 20px);
-            box-sizing: border-box;
-        }
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 1px 5px;
+                     height: 40.5px;
+                     margin-top: 9px;
+                    text-align: center;
+                    text-decoration: none;
+                    font-size: 16px;
+                    cursor: pointer;
+                    border: none;
+                    border-radius: 4px;
+                    flex-grow: 1;
+                    flex-basis: calc(50% - 20px);
+                    box-sizing: border-box;
+                }
         .menu-button:hover {
             background-color: #45a049;
         }
@@ -105,32 +107,23 @@
         <p class="subtitle">Zlagoda</p>
         <h1>All products</h1>
         <div class="button-container">
-            <form action="/all-products-information" method="post">
-                <button type="submit" class="menu-button">Information about all products</button>
-            </form>
-            <form action="/search-by-name" method="post">
-                <button type="submit" class="menu-button">Search by name</button>
-            </form>
-            <form action="/promotional-products" method="post">
-                <button type="submit" class="menu-button">Information about all promotional products</button>
-            </form>
-            <form action="/non-promotional-products" method="post">
-                <button type="submit" class="menu-button">Information about all non-promotional products</button>
-            </form>
-            <form action="/sale-price" method="post">
-                <button type="submit" class="menu-button">The sale price of the product by UPC</button>
+            <form action="/sort-by-category" method="get">
+                           <button type="submit" class="menu-button">Sort by category</button>
             </form>
         </div>
-        <div class="input-container">
-            <input type="text" id="product-name" name="product-name" placeholder="Enter product name">
-        </div>
+         <div class="input-container">
+                    <form action="/all-products" method="post">
+                        <input type="text" id="name" name="name" placeholder="Enter product name">
+                        <button type="submit" class="menu-button">Search</button>
+                    </form>
+         </div>
         <table>
             <tbody>
                 <%= request.getAttribute("htmlTable") %>
             </tbody>
         </table>
         <div class="button-container">
-            <form action="/another-action" method="post">
+            <form action="/cashier" method="get">
                 <button type="submit" class="blue-button">Another Action</button>
             </form>
         </div>

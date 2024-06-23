@@ -2,14 +2,15 @@ package ua.training.dao;
 
 import ua.training.entity.Dish;
 
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.List;
 
 public interface ProductDao extends GenericDao<Dish, Long>, AutoCloseable {
 
-	List<Dish> searchDishByName(String name);
+	StringBuilder searchProductsByName(String name);
 
-	List<Dish> searchDishByCategoryName(String categoryName);
+	StringBuilder searchDishByCategoryName(String categoryName);
 
 	List<Dish> searchMostPopularDishesPerPeriod(LocalDate fromDate, LocalDate toDate);
 

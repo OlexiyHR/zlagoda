@@ -7,23 +7,70 @@
     <title>User Profile</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #baa8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .profile-container {
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 600px; /* Зменшуємо максимальну ширину контейнера */
+            width: 90%;
+            margin: 20px;
             padding: 20px;
-            border: 1px solid #ccc;
+            background-color: #fff;
+            border: 1px solid #ddd;
             border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .profile-container h1 {
             text-align: center;
+            color: #2c3e50;
+            font-size: 2em; /* Зменшуємо розмір заголовку */
+            margin-bottom: 15px;
         }
         .profile-details {
-            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 15px;
         }
-        .profile-details dt {
-            font-weight: bold;
+        .profile-details p {
+            font-size: 1em; /* Зменшуємо розмір шрифту профільних деталей */
+            color: #34495e;
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            flex: 0 0 48%;
+            box-sizing: border-box;
+        }
+        .profile-details p:nth-child(odd) {
+            background-color: #dff9fb;
+        }
+        .profile-details p:nth-child(even) {
+            background-color: #f9f7e8;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .menu-button {
+             background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em; /* Зменшуємо розмір кнопки */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .menu-button:hover {
+            background-color: #2980b9;
         }
     </style>
 </head>
@@ -38,7 +85,7 @@
 
         <div class="button-container">
             <form action="/manager" method="get">
-                    <button type="submit" class="menu-button">Another Action</button>
+                <button type="submit" class="menu-button">Another Action</button>
             </form>
         </div>
     </div>

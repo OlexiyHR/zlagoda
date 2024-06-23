@@ -21,8 +21,8 @@ public class JdbcProductDao implements ProductDao {
 	private static String CREATE = "INSERT INTO dish (name, description, weight, cost, id_category) VALUES (?, ?, ?, ?, ?)";
 	private static String UPDATE = "UPDATE dish SET name=?, description=?, weight=?, cost=?, id_category=? WHERE id_dish=?";
 	private static String DELETE = "DELETE FROM dish WHERE id_dish=?";
-	private static String SEARCH_DISH_BY_NAME = "SELECT * FROM dish JOIN category USING(id_category) WHERE LOWER(dish.name) LIKE CONCAT('%', LOWER(?), '%')";
-	private static String SEARCH_DISH_BY_CATEGORY_NAME = "SELECT * FROM dish JOIN category USING(id_category) WHERE category.name=?";
+	private static String SEARCH_PRODUCT_BY_NAME = "SELECT * FROM product JOIN category USING(category_number) WHERE LOWER(product_name) LIKE CONCAT('%', LOWER(?), '%')";
+	private static String SEARCH_PRODUCT_BY_CATEGORY_NAME = "SELECT * FROM product JOIN category USING(category_number) WHERE category_name=?";
 	private static String SEARCH_MOST_POPULAR_DISHES_IN_PERIOD = 
 			"SELECT *"
 					+ " FROM dish JOIN category USING(id_category)" 
@@ -148,35 +148,55 @@ public class JdbcProductDao implements ProductDao {
 	}
 
 	@Override
-	public List<Dish> searchDishByName(String name) {
-		List<Dish> dishes = new ArrayList<>();
+	public StringBuilder searchProductsByName(String name) {
+		StringBuilder htmlTable = new StringBuilder();
 
-		try (PreparedStatement query = connection.prepareStatement(SEARCH_DISH_BY_NAME)) {
+		try (PreparedStatement query = connection.prepareStatement(SEARCH_PRODUCT_BY_NAME)) {
 			query.setString(1, name);
 			ResultSet resultSet = query.executeQuery();
+
+			htmlTable.append("<table border='1'>");
+			htmlTable.append("<tr><th>Product name</th><th>Id</th><th>Characteristics</th><th>Category name</th></tr>"); // Заголовки таблиці
 			while (resultSet.next()) {
+				htmlTable.append("<tr>");
+				htmlTable.append("<td>").append(resultSet.getString("product_name")).append("</td>");
+				htmlTable.append("<td>").append(resultSet.getString("id_product")).append("</td>");
+				htmlTable.append("<td>").append(resultSet.getString("characteristics")).append("</td>");
+				htmlTable.append("<td>").append(resultSet.getString("category_name")).append("</td>");
+				htmlTable.append("</tr>");
 			}
+			htmlTable.append("</table>");
 		} catch (SQLException e) {
 			LOGGER.error("JdbcProductDao searchDishByName SQL exception: " + name, e);
 			throw new ServerException(e);
 		}
-		return dishes;
+		return htmlTable;
 	}
 
 	@Override
-	public List<Dish> searchDishByCategoryName(String categoryName) {
-		List<Dish> dishes = new ArrayList<>();
+	public StringBuilder searchDishByCategoryName(String categoryName) {
+		StringBuilder htmlTable = new StringBuilder();
 
-		try (PreparedStatement query = connection.prepareStatement(SEARCH_DISH_BY_CATEGORY_NAME)) {
+		try (PreparedStatement query = connection.prepareStatement(SEARCH_PRODUCT_BY_CATEGORY_NAME)) {
 			query.setString(1, categoryName);
 			ResultSet resultSet = query.executeQuery();
+
+			htmlTable.append("<table border='1'>");
+			htmlTable.append("<tr><th>Product name</th><th>Id</th><th>Characteristics</th><th>Category name</th></tr>"); // Заголовки таблиці
 			while (resultSet.next()) {
+				htmlTable.append("<tr>");
+				htmlTable.append("<td>").append(resultSet.getString("product_name")).append("</td>");
+				htmlTable.append("<td>").append(resultSet.getString("id_product")).append("</td>");
+				htmlTable.append("<td>").append(resultSet.getString("characteristics")).append("</td>");
+				htmlTable.append("<td>").append(resultSet.getString("category_name")).append("</td>");
+				htmlTable.append("</tr>");
 			}
+			htmlTable.append("</table>");
 		} catch (SQLException e) {
-			LOGGER.error("JdbcProductDao searchDishByCategoryName SQL exception: " + categoryName, e);
+			LOGGER.error("JdbcProductDao searchDishByName SQL exception: " + categoryName, e);
 			throw new ServerException(e);
 		}
-		return dishes;
+		return htmlTable;
 	}
 
 	@Override

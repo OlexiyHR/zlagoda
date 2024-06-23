@@ -84,7 +84,7 @@
             <form action="./all-products" method="get">
                 <button type="submit" class="menu-button">All products</button>
             </form>
-            <form action="/all-products-in-store" method="post">
+            <form action="/all-products-in-store" method="get">
                 <button type="submit" class="menu-button">All products in store</button>
             </form>
             <form action="/manage-regular-clients" method="post">

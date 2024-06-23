@@ -20,8 +20,8 @@ public class ProductService {
     static final String CREATE_DISH = "Create dish: %s";
     static final String UPDATE_DISH = "Update dish: %d";
     static final String DELETE_DISH = "Delete dish: %d";
-    static final String SEARCH_DISHES_BY_NAME = "Search dishes by name: %s";
-    static final String SEARCH_DISHES_BY_CATEGORY_NAME = "Search dishes by category name: %s";
+    static final String SEARCH_PRODUCTS_BY_NAME = "Search products by name: %s";
+    static final String SEARCH_PRODUCTS_BY_CATEGORY_NAME = "Search products by category name: %s";
     static final String SEARCH_MOST_POPULAR_DISH_PER_PERIOD = "Search most popular dish per period from %s to %s";
 
     private final DaoFactory daoFactory;
@@ -75,17 +75,17 @@ public class ProductService {
         }
     }
 
-    public List<Dish> searchDishesByName(String dishName) {
-        LOGGER.info(String.format(SEARCH_DISHES_BY_NAME, dishName));
-        try (ProductDao dishDao = daoFactory.createProductDao()) {
-            return dishDao.searchDishByName(dishName);
+    public StringBuilder searchProductsByName(String productName) {
+        LOGGER.info(String.format(SEARCH_PRODUCTS_BY_NAME, productName));
+        try (ProductDao productsDao = daoFactory.createProductDao()) {
+            return productsDao.searchProductsByName(productName);
         }
     }
 
-    public List<Dish> searchDishesByCategoryName(String categoryName) {
-        LOGGER.info(String.format(SEARCH_DISHES_BY_CATEGORY_NAME, categoryName));
-        try (ProductDao dishDao = daoFactory.createProductDao()) {
-            return dishDao.searchDishByCategoryName(categoryName);
+    public StringBuilder searchDishesByCategoryName(String categoryName) {
+        LOGGER.info(String.format(SEARCH_PRODUCTS_BY_CATEGORY_NAME, categoryName));
+        try (ProductDao productsDao = daoFactory.createProductDao()) {
+            return productsDao.searchDishByCategoryName(categoryName);
         }
     }
 

@@ -182,22 +182,23 @@ enum CommandEnum {
 		}
 	},
 
+	SEARCH_PRODUCTS_BY_NAME {
+		{
+			this.key = "POST:/all-products";
+			this.command = new SearchProductsByNameCommand(ProductService.getInstance(), CategoryService.getInstance());
+		}
+	},
+	SEARCH_PRODUCTS_BY_CATEGORY {
+		{
+			this.key = "POST:/sort-by-category";
+			this.command = new SearchProductsByCategoryCommand(ProductService.getInstance(), CategoryService.getInstance());
+		}
+	},
+
 	ALL_Products1 {
 		{
 			this.key = "GET:dishes";
 			this.command = new AllProductsCommand(ProductService.getInstance(), CategoryService.getInstance());
-		}
-	},
-	SEARCH_DISHES_BY_NAME {
-		{
-			this.key = "POST:dishes/name";
-			this.command = new SearchDishesByNameCommand(ProductService.getInstance(), CategoryService.getInstance());
-		}
-	},
-	SEARCH_DISHES_BY_CATEGORY {
-		{
-			this.key = "POST:dishes/category";
-			this.command = new SearchDishesByCategoryCommand(ProductService.getInstance(), CategoryService.getInstance());
 		}
 	},
 	SEARCH_MOST_POPULAR_DISHES {
