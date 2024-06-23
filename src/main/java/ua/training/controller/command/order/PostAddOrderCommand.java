@@ -12,7 +12,7 @@ import ua.training.entity.Order;
 import ua.training.entity.Status;
 import ua.training.entity.User;
 import ua.training.locale.Message;
-import ua.training.service.DishService;
+import ua.training.service.ProductService;
 import ua.training.service.OrderService;
 
 import jakarta.servlet.ServletException;
@@ -27,11 +27,11 @@ import java.util.stream.Collectors;
 public class PostAddOrderCommand implements Command {
 
 	private final OrderService orderService;
-	private final DishService dishService;
+	private final ProductService productService;
 
-	public PostAddOrderCommand(OrderService orderService, DishService dishService) {
+	public PostAddOrderCommand(OrderService orderService, ProductService productService) {
 		this.orderService = orderService;
-		this.dishService = dishService;
+		this.productService = productService;
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class PostAddOrderCommand implements Command {
 		}
 
 		request.setAttribute(Attribute.ERRORS, errors);
-		request.setAttribute(Attribute.DISHES, dishService.getAllDishes());
+		request.setAttribute(Attribute.DISHES, productService.getAllProducts());
 		return Page.ADD_UPDATE_ORDER_VIEW;
 	}
 
@@ -69,7 +69,7 @@ public class PostAddOrderCommand implements Command {
 	}
 
 	private List<Dish> getOrderDishes(String[] dishesIds) {
-		return Arrays.stream(dishesIds).map(dishId -> dishService.getDishById(Long.parseLong(dishId)).get())
+		return Arrays.stream(dishesIds).map(dishId -> productService.getDishById(Long.parseLong(dishId)).get())
 				.collect(Collectors.toList());
 	}
 

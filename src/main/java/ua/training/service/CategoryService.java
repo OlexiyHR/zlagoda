@@ -48,7 +48,7 @@ public class CategoryService {
         }
     }
 
-    public List<Category> getAllCategories() {
+    public StringBuilder getAllCategories() {
         LOGGER.info(GET_ALL_CATEGORIES);
         try (CategoryDao categoryDao = daoFactory.createCategoryDao()) {
             return categoryDao.getAll();

@@ -1,4 +1,4 @@
-package ua.training.controller.command.dish;
+package ua.training.controller.command.product;
 
 import ua.training.constants.Attribute;
 import ua.training.constants.Page;
@@ -9,10 +9,7 @@ import ua.training.controller.utils.RedirectionManager;
 import ua.training.entity.Dish;
 import ua.training.locale.Message;
 import ua.training.service.CategoryService;
-import ua.training.service.DishService;
-import ua.training.validator.field.AbstractFieldValidatorHandler;
-import ua.training.validator.field.FieldValidatorKey;
-import ua.training.validator.field.FieldValidatorsChainGenerator;
+import ua.training.service.ProductService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,13 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SearchDishesByNameCommand implements Command {
+public class SearchDishesByCategoryCommand implements Command {
 
-	private final DishService dishService;
+	private final ProductService productService;
 	private final CategoryService categoryService;
 
-	public SearchDishesByNameCommand(DishService dishService, CategoryService categoryService) {
-		this.dishService = dishService;
+	public SearchDishesByCategoryCommand(ProductService productService, CategoryService categoryService) {
+		this.productService = productService;
 		this.categoryService = categoryService;
 	}
 
@@ -37,8 +34,8 @@ public class SearchDishesByNameCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String name = request.getParameter(Attribute.NAME);
-		List<String> errors = validateUserInput(name);
+		String category = request.getParameter(Attribute.CATEGORY);
+		List<String> errors = validateUserInput(category);
 		HttpWrapper httpWrapper = new HttpWrapper(request, response);
 		Map<String, String> urlParams;
 
@@ -49,7 +46,7 @@ public class SearchDishesByNameCommand implements Command {
 			return RedirectionManager.REDIRECTION;
 		}
 
-		List<Dish> dishes= dishService.searchDishesByName(name);
+		List<Dish> dishes = productService.searchDishesByCategoryName(category);
 
 		if (dishes.isEmpty()) {
 			urlParams = new HashMap<>();
@@ -63,11 +60,13 @@ public class SearchDishesByNameCommand implements Command {
 		return Page.ALL_DISHES_VIEW;
 	}
 
-	private List<String> validateUserInput(String name) {
+	private List<String> validateUserInput(String category) {
 		List<String> errors = new ArrayList<>();
 
-		AbstractFieldValidatorHandler fieldValidator = FieldValidatorsChainGenerator.getFieldValidatorsChain();
-		fieldValidator.validateField(FieldValidatorKey.NAME, name, errors);
+		if (category.isEmpty()) {
+			errors.add(Message.INVALID_CATEGORY);
+		}
+
 		return errors;
 	}
 }

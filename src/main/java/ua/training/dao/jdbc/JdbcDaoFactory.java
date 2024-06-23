@@ -5,11 +5,8 @@ import org.apache.log4j.Logger;
 import ua.training.dao.*;
 import ua.training.exception.ServerException;
 
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 /**
  * Class that represent dao factory that produces DAOs for JDBC persistent
@@ -74,6 +71,8 @@ public class JdbcDaoFactory extends DaoFactory {
 	@Override
 	public CategoryDao createCategoryDao() {
 		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "ol12345");
 			return new JdbcCategoryDao(connection, true);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -88,19 +87,21 @@ public class JdbcDaoFactory extends DaoFactory {
 	}
 	
 	@Override
-	public DishDao createDishDao() {
+	public ProductDao createProductDao() {
 		try {
-			return new JdbcDishDao(connection, true);
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "ol12345");
+			return new JdbcProductDao(connection, true);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public DishDao createDishDao(DaoConnection connection) {
+	public ProductDao createProductDao(DaoConnection connection) {
 		JdbcDaoConnection jdbcConnection = (JdbcDaoConnection) connection;
 		Connection sqlConnection = jdbcConnection.getConnection();
-		return new JdbcDishDao(sqlConnection);
+		return new JdbcProductDao(sqlConnection);
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package ua.training.controller.command.dish;
+package ua.training.controller.command.product;
 
 import ua.training.constants.Attribute;
 import ua.training.constants.Page;

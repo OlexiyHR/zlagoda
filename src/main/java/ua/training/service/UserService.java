@@ -45,7 +45,7 @@ public class UserService {
 
 
 
-    public List<User> getAllUsers() {
+    public StringBuilder getAllUsers() {
         LOGGER.info(GET_ALL_USERS);
         try (UserDao userDao = daoFactory.createUserDao()) {
             return userDao.getAll();

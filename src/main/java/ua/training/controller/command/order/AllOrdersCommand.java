@@ -30,12 +30,9 @@ public class AllOrdersCommand implements Command {
 			throws ServletException, IOException {
 
 		User loggedInUser = SessionManager.getInstance().getUserFromSession(request.getSession());
-		List<Order> orders = new ArrayList<Order>();
-
+		StringBuilder orders = new  StringBuilder();
+		List<Order> aa = new ArrayList<Order>();
 		if (loggedInUser.getRole().equals(Role.CASHIER)) {
-			orders = orderService.searchWaiterOrdersPerToday(loggedInUser.getId(), LocalDate.now());
-		} else if (loggedInUser.getRole().equals(Role.CASHIER)) {
-			orders = orderService.searchUnpreparedOrdersForToday(LocalDate.now());
 		} else if (loggedInUser.getRole().equals(Role.MANAGER)) {
 			orders = orderService.getAllOrders();
 		}

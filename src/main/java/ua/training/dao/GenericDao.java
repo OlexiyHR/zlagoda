@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public interface GenericDao<T, K> {
 
-	List<T> getAll();
+	StringBuilder getAll();
 
 	Optional<T> getById(K id);
 

@@ -1,4 +1,4 @@
-package ua.training.controller.command.dish;
+package ua.training.controller.command.product;
 
 import ua.training.constants.Attribute;
 import ua.training.constants.ServletPath;
@@ -6,7 +6,7 @@ import ua.training.controller.command.Command;
 import ua.training.controller.utils.HttpWrapper;
 import ua.training.controller.utils.RedirectionManager;
 import ua.training.locale.Message;
-import ua.training.service.DishService;
+import ua.training.service.ProductService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,10 +17,10 @@ import java.util.Map;
 
 public class DeleteDishCommand implements Command {
 
-	private final DishService dishService;
+	private final ProductService productService;
 
-	public DeleteDishCommand(DishService dishService) {
-		this.dishService = dishService;
+	public DeleteDishCommand(ProductService productService) {
+		this.productService = productService;
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class DeleteDishCommand implements Command {
 			throws ServletException, IOException {
 		Long dishId = Long.parseLong(request.getParameter(Attribute.ID_DISH));
 
-		dishService.deleteDish(dishId);
+		productService.deleteDish(dishId);
 
 		redirectToAllDishesPageWithSuccessMessage(request, response);
 		return RedirectionManager.REDIRECTION;

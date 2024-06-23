@@ -76,18 +76,16 @@ public class JdbcOrderDao implements OrderDao {
 	}
 
 	@Override
-	public List<Order> getAll() {
-		List<Order> orders = new ArrayList<>();
-
+	public StringBuilder getAll() {
+		StringBuilder htmlTable = new StringBuilder();
 		try (Statement query = connection.createStatement(); ResultSet resultSet = query.executeQuery(GET_ALL)) {
 			while (resultSet.next()) {
-				orders.add(extractOrderWithDishesFromResultSet(resultSet));
 			}
 		} catch (SQLException e) {
 			LOGGER.error("JdbcOrderDao getAll SQL exception", e);
 			throw new ServerException(e);
 		}
-		return orders;
+		return htmlTable;
 	}
 
 	@Override
@@ -169,21 +167,20 @@ public class JdbcOrderDao implements OrderDao {
 	}
 
 	@Override
-	public List<Order> searchWaiterOrdersForToday(Long idWaiter, LocalDate date) {
-		List<Order> orders = new ArrayList<>();
+	public StringBuilder searchWaiterOrdersForToday(Long idWaiter, LocalDate date) {
+		StringBuilder htmlTable = new StringBuilder();
 
 		try (PreparedStatement query = connection.prepareStatement(SEARCH_WAITER_ORDERS_PER_PERIOD)) {
 			query.setDate(1, Date.valueOf(date));
 			query.setLong(2, idWaiter);
 			ResultSet resultSet = query.executeQuery();
 			while (resultSet.next()) {
-				orders.add(extractOrderWithDishesFromResultSet(resultSet));
 			}
 		} catch (SQLException e) {
 			LOGGER.error("JdbcOrderDao searchWaiterOrdersPerToday SQL exception", e);
 			throw new ServerException(e);
 		}
-		return orders;
+		return htmlTable;
 	}
 
 	@Override

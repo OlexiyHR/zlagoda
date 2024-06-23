@@ -4,7 +4,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ua.training.converter.DishDtoDishConverter;
 import ua.training.dao.DaoFactory;
-import ua.training.dao.DishDao;
+import ua.training.dao.ProductDao;
 import ua.training.dto.DishDto;
 import ua.training.entity.Dish;
 
@@ -12,9 +12,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class DishService {
+public class ProductService {
 
-    private static final Logger LOGGER = LogManager.getLogger(DishService.class);
+    private static final Logger LOGGER = LogManager.getLogger(ProductService.class);
     static final String GET_ALL_DISHES = "Get all dishes";
     static final String GET_DISH_BY_ID = "Get dish by id: %d";
     static final String CREATE_DISH = "Create dish: %s";
@@ -26,28 +26,28 @@ public class DishService {
 
     private final DaoFactory daoFactory;
 
-    DishService(DaoFactory daoFactory) {
+    ProductService(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
 
     private static class Holder {
-        static final DishService INSTANCE = new DishService(DaoFactory.getDaoFactory());
+        static final ProductService INSTANCE = new ProductService(DaoFactory.getDaoFactory());
     }
 
-    public static DishService getInstance() {
+    public static ProductService getInstance() {
         return Holder.INSTANCE;
     }
 
-    public List<Dish> getAllDishes() {
+    public StringBuilder getAllProducts() {
         LOGGER.info(GET_ALL_DISHES);
-        try (DishDao dishDao = daoFactory.createDishDao()) {
-            return dishDao.getAll();
+        try (ProductDao productDao = daoFactory.createProductDao()) {
+            return productDao.getAll();
         }
     }
 
     public Optional<Dish> getDishById(Long dishId) {
         LOGGER.info(String.format(GET_DISH_BY_ID, dishId));
-        try (DishDao dishDao = daoFactory.createDishDao()) {
+        try (ProductDao dishDao = daoFactory.createProductDao()) {
             return dishDao.getById(dishId);
         }
     }
@@ -55,7 +55,7 @@ public class DishService {
     public void createDish(DishDto dishDto) {
         LOGGER.info(String.format(CREATE_DISH, dishDto.getName()));
         Dish dish = DishDtoDishConverter.toDish(dishDto);
-        try (DishDao dishDao = daoFactory.createDishDao()) {
+        try (ProductDao dishDao = daoFactory.createProductDao()) {
             dishDao.create(dish);
         }
     }
@@ -63,28 +63,28 @@ public class DishService {
     public void updateDish(DishDto dishDto) {
         LOGGER.info(String.format(UPDATE_DISH, dishDto.getId()));
         Dish dish = DishDtoDishConverter.toDish(dishDto);
-        try (DishDao dishDao = daoFactory.createDishDao()) {
+        try (ProductDao dishDao = daoFactory.createProductDao()) {
             dishDao.update(dish);
         }
     }
 
     public void deleteDish(Long dishId) {
         LOGGER.info(String.format(DELETE_DISH, dishId));
-        try (DishDao dishDao = daoFactory.createDishDao()) {
+        try (ProductDao dishDao = daoFactory.createProductDao()) {
             dishDao.delete(dishId);
         }
     }
 
     public List<Dish> searchDishesByName(String dishName) {
         LOGGER.info(String.format(SEARCH_DISHES_BY_NAME, dishName));
-        try (DishDao dishDao = daoFactory.createDishDao()) {
+        try (ProductDao dishDao = daoFactory.createProductDao()) {
             return dishDao.searchDishByName(dishName);
         }
     }
 
     public List<Dish> searchDishesByCategoryName(String categoryName) {
         LOGGER.info(String.format(SEARCH_DISHES_BY_CATEGORY_NAME, categoryName));
-        try (DishDao dishDao = daoFactory.createDishDao()) {
+        try (ProductDao dishDao = daoFactory.createProductDao()) {
             return dishDao.searchDishByCategoryName(categoryName);
         }
     }
@@ -92,7 +92,7 @@ public class DishService {
     public List<Dish> searchMostPopularDishesPerPeriod(LocalDate fromDate, LocalDate toDate) {
         LOGGER.info(String.format(SEARCH_MOST_POPULAR_DISH_PER_PERIOD, fromDate.toString(),
                 toDate.toString()));
-        try (DishDao dishDao = daoFactory.createDishDao()) {
+        try (ProductDao dishDao = daoFactory.createProductDao()) {
             return dishDao.searchMostPopularDishesPerPeriod(fromDate, toDate);
         }
     }

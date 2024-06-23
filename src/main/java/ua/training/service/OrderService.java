@@ -38,7 +38,7 @@ public class OrderService {
         return Holder.INSTANCE;
     }
 
-    public List<Order> getAllOrders() {
+    public StringBuilder getAllOrders() {
         LOGGER.info(GET_ALL_ORDERS);
         try (OrderDao orderDao = daoFactory.createOrderDao()) {
             return orderDao.getAll();
@@ -77,7 +77,7 @@ public class OrderService {
         }
     }
 
-    public List<Order> searchWaiterOrdersPerToday(Long idWaiter, LocalDate date) {
+    public StringBuilder searchWaiterOrdersPerToday(Long idWaiter, LocalDate date) {
         LOGGER.info(String.format(SEARCH_WAITER_ORDERS, idWaiter, date.toString()));
         try (OrderDao orderDao = daoFactory.createOrderDao()) {
             return orderDao.searchWaiterOrdersForToday(idWaiter, date);

@@ -70,18 +70,17 @@ public class JdbcUserDao implements UserDao {
 	}
 
 	@Override
-	public List<User> getAll() {
-		List<User> users = new ArrayList<>();
+	public StringBuilder getAll() {
+		StringBuilder htmlTable = new StringBuilder();
 
 		try (Statement query = connection.createStatement(); ResultSet resultSet = query.executeQuery(GET_ALL)) {
 			while (resultSet.next()) {
-				users.add(extractUserFromResultSet(resultSet));
 			}
 		} catch (SQLException e) {
 			LOGGER.error("JdbcUserDao getAll SQL exception", e);
 			throw new ServerException(e);
 		}
-		return users;
+		return htmlTable;
 	}
 
 	@Override

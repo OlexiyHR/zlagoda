@@ -24,7 +24,7 @@ public class AllUsersCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		List<User> users = userService.getAllUsers();
+		StringBuilder users = userService.getAllUsers();
 		
 		request.setAttribute(Attribute.USERS, users);
 		request.setAttribute(Attribute.ROLES, Role.values());

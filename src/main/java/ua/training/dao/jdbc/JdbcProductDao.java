@@ -2,7 +2,7 @@ package ua.training.dao.jdbc;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import ua.training.dao.DishDao;
+import ua.training.dao.ProductDao;
 import ua.training.entity.Dish;
 import ua.training.exception.ServerException;
 
@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JdbcDishDao implements DishDao {
+public class JdbcProductDao implements ProductDao {
 
-	private static final Logger LOGGER = LogManager.getLogger(JdbcDishDao.class);
+	private static final Logger LOGGER = LogManager.getLogger(JdbcProductDao.class);
 
-	private static String GET_ALL = "SELECT * FROM dish JOIN category USING(id_category) ORDER BY category.name";
+	private static String GET_ALL = "SELECT * FROM product JOIN category USING(category_number) ORDER BY product_name";
 	private static String GET_BY_ID = "SELECT * FROM dish JOIN category USING(id_category) WHERE id_dish=?";
 	private static String CREATE = "INSERT INTO dish (name, description, weight, cost, id_category) VALUES (?, ?, ?, ?, ?)";
 	private static String UPDATE = "UPDATE dish SET name=?, description=?, weight=?, cost=?, id_category=? WHERE id_dish=?";
@@ -37,22 +37,20 @@ public class JdbcDishDao implements DishDao {
 																				+ "	GROUP BY id_dish )AS `orders_counter`))";
 	
 	// table columns names
-	private static String ID = "id_dish";
-	private static String NAME = "dish.name";
-	private static String DESCRIPTION = "description";
-	private static String WEIGHT = "weight";
-	private static String COST = "cost";
-	private static String ID_CATEGORY = "id_category";
+	private static String ID = "id_product";
+	private static String NAME = "product_name";
+	private static String CHARACTERISTICS = "characteristics";
+	private static String CATEGORY_NAME = "category_name";
 
 	private Connection connection;
 	private boolean connectionShouldBeClosed;
 
-	public JdbcDishDao(Connection connection) {
+	public JdbcProductDao(Connection connection) {
 		this.connection = connection;
 		connectionShouldBeClosed = false;
 	}
 
-	public JdbcDishDao(Connection connection, boolean connectionShouldBeClosed) {
+	public JdbcProductDao(Connection connection, boolean connectionShouldBeClosed) {
 		this.connection = connection;
 		this.connectionShouldBeClosed = connectionShouldBeClosed;
 	}
@@ -62,18 +60,27 @@ public class JdbcDishDao implements DishDao {
 	}
 
 	@Override
-	public List<Dish> getAll() {
-		List<Dish> dishes = new ArrayList<>();
+	public StringBuilder getAll() {
+		StringBuilder htmlTable = new StringBuilder();
 
-		try (Statement query = connection.createStatement(); ResultSet resultSet = query.executeQuery(GET_ALL)) {
-			while (resultSet.next()) {
-				dishes.add(extractDishFromResultSet(resultSet));
+		try (Statement query = connection.createStatement(); ResultSet rs = query.executeQuery(GET_ALL)) {
+			htmlTable.append("<table border='1'>");
+			htmlTable.append("<tr><th>Product name</th><th>Id</th><th>Characteristics</th><th>Category name</th></tr>"); // Заголовки таблиці
+			while (rs.next()) {
+				htmlTable.append("<tr>");
+				htmlTable.append("<td>").append(rs.getString("product_name")).append("</td>");
+				htmlTable.append("<td>").append(rs.getString("id_product")).append("</td>");
+				htmlTable.append("<td>").append(rs.getString("characteristics")).append("</td>");
+				htmlTable.append("<td>").append(rs.getString("category_name")).append("</td>");
+				htmlTable.append("</tr>");
 			}
+			htmlTable.append("</table>");
+
 		} catch (SQLException e) {
-			LOGGER.error("JdbcDishDao getAll SQL exception", e);
+			LOGGER.error("JdbcCategoryDao showNumbers SQL exception", e);
 			throw new ServerException(e);
 		}
-		return dishes;
+		return htmlTable;
 	}
 
 	@Override
@@ -83,11 +90,10 @@ public class JdbcDishDao implements DishDao {
 			query.setLong(1, id);
 			ResultSet resultSet = query.executeQuery();
 			while (resultSet.next()) {
-				dish = Optional.of(extractDishFromResultSet(resultSet));
 			}
 
 		} catch (SQLException e) {
-			LOGGER.error("JdbcDishDao getById SQL exception: " + id, e);
+			LOGGER.error("JdbcProductDao getById SQL exception: " + id, e);
 			throw new ServerException(e);
 		}
 		return dish;
@@ -108,7 +114,7 @@ public class JdbcDishDao implements DishDao {
 				dish.setId(keys.getLong(1));
 			}
 		} catch (SQLException e) {
-			LOGGER.error("JdbcDishDao create SQL exception", e);
+			LOGGER.error("JdbcProductDao create SQL exception", e);
 			throw new ServerException(e);
 		}
 	}
@@ -124,7 +130,7 @@ public class JdbcDishDao implements DishDao {
 			query.setLong(6, dish.getId());
 			query.executeUpdate();
 		} catch (SQLException e) {
-			LOGGER.error("JdbcDishDao update SQL exception: " + dish.getId(), e);
+			LOGGER.error("JdbcProductDao update SQL exception: " + dish.getId(), e);
 			throw new ServerException(e);
 		}
 	}
@@ -135,7 +141,7 @@ public class JdbcDishDao implements DishDao {
 			query.setLong(1, id);
 			query.executeUpdate();
 		} catch (SQLException e) {
-			LOGGER.error("JdbcDishDao delete SQL exception: " + id, e);
+			LOGGER.error("JdbcProductDao delete SQL exception: " + id, e);
 			throw new ServerException(e);
 		}
 
@@ -149,10 +155,9 @@ public class JdbcDishDao implements DishDao {
 			query.setString(1, name);
 			ResultSet resultSet = query.executeQuery();
 			while (resultSet.next()) {
-				dishes.add(extractDishFromResultSet(resultSet));
 			}
 		} catch (SQLException e) {
-			LOGGER.error("JdbcDishDao searchDishByName SQL exception: " + name, e);
+			LOGGER.error("JdbcProductDao searchDishByName SQL exception: " + name, e);
 			throw new ServerException(e);
 		}
 		return dishes;
@@ -166,10 +171,9 @@ public class JdbcDishDao implements DishDao {
 			query.setString(1, categoryName);
 			ResultSet resultSet = query.executeQuery();
 			while (resultSet.next()) {
-				dishes.add(extractDishFromResultSet(resultSet));
 			}
 		} catch (SQLException e) {
-			LOGGER.error("JdbcDishDao searchDishByCategoryName SQL exception: " + categoryName, e);
+			LOGGER.error("JdbcProductDao searchDishByCategoryName SQL exception: " + categoryName, e);
 			throw new ServerException(e);
 		}
 		return dishes;
@@ -186,10 +190,9 @@ public class JdbcDishDao implements DishDao {
 			query.setDate(4, Date.valueOf(toDate));
 			ResultSet resultSet = query.executeQuery();
 			while (resultSet.next()) {
-				dishes.add(extractDishFromResultSet(resultSet));
 			}
 		} catch (SQLException e) {
-			LOGGER.error("JdbcDishDao searchMostPopularDishesInPeriod SQL exception", e);
+			LOGGER.error("JdbcProductDao searchMostPopularDishesInPeriod SQL exception", e);
 			throw new ServerException(e);
 		}
 		return dishes;
@@ -206,12 +209,6 @@ public class JdbcDishDao implements DishDao {
 			}
 		}
 	}
-	
-	protected static Dish extractDishFromResultSet(ResultSet resultSet) throws SQLException {
-		return new Dish.Builder().setId(resultSet.getLong(ID)).setName(resultSet.getString(NAME))
-				.setDescription(resultSet.getString(DESCRIPTION)).setWeight(resultSet.getDouble(WEIGHT))
-				.setCost(resultSet.getBigDecimal(COST)).setCategory(JdbcCategoryDao.extractCategoryFromResultSet(resultSet))
-				.build();
-	}
+
 
 }

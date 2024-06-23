@@ -54,9 +54,6 @@ public class JdbcCategoryDao implements CategoryDao {
 
 	public StringBuilder showNumbers() throws ClassNotFoundException, SQLException {
 		StringBuilder htmlTable = new StringBuilder();
-
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "ol12345");
 		try (Statement query = connection.createStatement();
 
 			 ResultSet rs = query.executeQuery(ShowNumbers)) {
@@ -79,18 +76,17 @@ public class JdbcCategoryDao implements CategoryDao {
 	}
 
 	@Override
-	public List<Category> getAll() {
-		List<Category> categories = new ArrayList<>();
+	public StringBuilder getAll() {
+		StringBuilder htmlTable = new StringBuilder();
 
 		try (Statement query = connection.createStatement(); ResultSet resultSet = query.executeQuery(GET_ALL)) {
 			while (resultSet.next()) {
-				categories.add(extractCategoryFromResultSet(resultSet));
 			}
 		} catch (SQLException e) {
 			LOGGER.error("JdbcCategoryDao getAll SQL exception", e);
 			throw new ServerException(e);
 		}
-		return categories;
+		return htmlTable;
 	}
 
 	@Override

@@ -1,6 +1,11 @@
 package ua.training.controller;
 
-import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import ua.training.constants.Attribute;
 import ua.training.constants.ServletPath;
@@ -9,32 +14,15 @@ import ua.training.controller.command.i18n.AppLocale;
 import ua.training.controller.filter.FilterAccess;
 import ua.training.controller.utils.CommandKeyGenerator;
 import ua.training.controller.utils.HttpWrapper;
-import ua.training.controller.utils.RedirectionManager;
-import ua.training.exception.ServiceException;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
 
-/**
- * Application HTTP Front Servlet that processes all the incoming requests
- */
-
-
-
-@WebServlet(urlPatterns = { "/show-number-buyers" }, loadOnStartup = 1)
-public class ShowNumberBuyersController extends HttpServlet {
-
-    private static final Logger LOGGER = Logger.getLogger(FrontController.class);
+@WebServlet("/all-products")
+public class AllProductsController extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(LoginController.class);
     private static final long serialVersionUID = 1L;
 
-    public ShowNumberBuyersController() {
+    public AllProductsController() {
     }
 
     @Override
@@ -43,22 +31,20 @@ public class ShowNumberBuyersController extends HttpServlet {
         getServletContext().setAttribute(Attribute.LOCALES, AppLocale.getAppLocales());
     }
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        if (FilterAccess.getInstance().filterAccess(request, "Касир")) {
+            processRequest(request, response);
+        } else if (FilterAccess.getInstance().filterAccess(request, "Менеджер")) {
+            response.sendRedirect("/manager");
+        } else response.sendRedirect("/login");
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            processRequest(request, response);
+        processRequest(request, response);
     }
 
-    /**
-     * Processes all the requests by proper concrete command that implements
-     * {@link Command} interface depends on the request path
-     *
-     * @param request
-     *            incoming request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpWrapper httpWrapper = new HttpWrapper(request, response);
@@ -67,13 +53,9 @@ public class ShowNumberBuyersController extends HttpServlet {
         try {
             String commandResultedResource = command.execute(request, response);
             request.setAttribute("htmlTable", commandResultedResource);
-            request.getRequestDispatcher("/WEB-INF/views/ResultNumbers.jsp").forward(request, response);
-
-
+            request.getRequestDispatcher("/WEB-INF/views/AllProducts.jsp").forward(request, response);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-
-        }
+    }
 }
-

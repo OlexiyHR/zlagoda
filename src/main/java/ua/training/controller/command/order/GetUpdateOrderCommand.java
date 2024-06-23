@@ -5,7 +5,7 @@ import ua.training.constants.Page;
 import ua.training.controller.command.Command;
 import ua.training.entity.Order;
 import ua.training.entity.Status;
-import ua.training.service.DishService;
+import ua.training.service.ProductService;
 import ua.training.service.OrderService;
 
 import jakarta.servlet.ServletException;
@@ -17,11 +17,11 @@ import java.util.Optional;
 public class GetUpdateOrderCommand implements Command {
 
 	private final OrderService orderService;
-	private final DishService dishService;
+	private final ProductService productService;
 
-	public GetUpdateOrderCommand(OrderService orderService, DishService dishService) {
+	public GetUpdateOrderCommand(OrderService orderService, ProductService productService) {
 		this.orderService = orderService;
-		this.dishService = dishService;
+		this.productService = productService;
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class GetUpdateOrderCommand implements Command {
 		Optional<Order> order = orderService.getOrderById(orderId);
 
 		request.setAttribute(Attribute.STATUSES, Status.values());		
-		request.setAttribute(Attribute.DISHES, dishService.getAllDishes());
+		request.setAttribute(Attribute.DISHES, productService.getAllProducts());
 		request.setAttribute(Attribute.ORDER, order.get());
 		return Page.ADD_UPDATE_ORDER_VIEW;
 	}

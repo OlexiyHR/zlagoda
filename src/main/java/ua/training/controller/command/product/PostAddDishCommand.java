@@ -1,4 +1,4 @@
-package ua.training.controller.command.dish;
+package ua.training.controller.command.product;
 
 import ua.training.constants.Attribute;
 import ua.training.constants.Page;
@@ -10,7 +10,7 @@ import ua.training.dto.DishDto;
 import ua.training.entity.Category;
 import ua.training.locale.Message;
 import ua.training.service.CategoryService;
-import ua.training.service.DishService;
+import ua.training.service.ProductService;
 import ua.training.validator.entity.DishDtoValidator;
 
 import jakarta.servlet.ServletException;
@@ -23,11 +23,11 @@ import java.util.Map;
 
 public class PostAddDishCommand implements Command {
 
-	private final DishService dishService;
+	private final ProductService productService;
 	private final CategoryService categoryService;
 
-	public PostAddDishCommand(DishService dishService, CategoryService categoryService) {
-		this.dishService = dishService;
+	public PostAddDishCommand(ProductService productService, CategoryService categoryService) {
+		this.productService = productService;
 		this.categoryService = categoryService;
 	}
 
@@ -39,7 +39,7 @@ public class PostAddDishCommand implements Command {
 		List<String> errors = validateUserInput(dishDto);
 
 		if (errors.isEmpty()) {
-			dishService.createDish(dishDto);
+			productService.createDish(dishDto);
 			redirectToAllDishesPageWithSuccessMessage(request, response);
 			return RedirectionManager.REDIRECTION;
 		}

@@ -39,8 +39,8 @@ public abstract class DaoFactory {
 	public abstract CategoryDao createCategoryDao();
 	public abstract CategoryDao createCategoryDao(DaoConnection connection);
 	
-	public abstract DishDao createDishDao();
-	public abstract DishDao createDishDao(DaoConnection connection);
+	public abstract ProductDao createProductDao();
+	public abstract ProductDao createProductDao(DaoConnection connection);
 	
 	public abstract OrderDao createOrderDao();
 	public abstract OrderDao createOrderDao(DaoConnection connection);

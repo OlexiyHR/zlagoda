@@ -1,11 +1,11 @@
-package ua.training.controller.command.dish;
+package ua.training.controller.command.product;
 
 import ua.training.constants.Attribute;
 import ua.training.constants.Page;
 import ua.training.controller.command.Command;
 import ua.training.entity.Dish;
 import ua.training.service.CategoryService;
-import ua.training.service.DishService;
+import ua.training.service.ProductService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,11 +15,11 @@ import java.util.Optional;
 
 public class GetUpdateDishCommand implements Command {
 
-	private final DishService dishService;
+	private final ProductService productService;
 	private final CategoryService categoryService;
 
-	public GetUpdateDishCommand(DishService dishService, CategoryService categoryService) {
-		this.dishService = dishService;
+	public GetUpdateDishCommand(ProductService productService, CategoryService categoryService) {
+		this.productService = productService;
 		this.categoryService = categoryService;
 	}
 
@@ -28,7 +28,7 @@ public class GetUpdateDishCommand implements Command {
 			throws ServletException, IOException {
 		Long dishId = Long.parseLong(request.getParameter(Attribute.ID_DISH));
 
-		Optional<Dish> dish = dishService.getDishById(dishId);
+		Optional<Dish> dish = productService.getDishById(dishId);
 						
 		request.setAttribute(Attribute.CATEGORIES, categoryService.getAllCategories());
 		request.setAttribute(Attribute.DISH, dish.get());

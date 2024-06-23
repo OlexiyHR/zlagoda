@@ -81,26 +81,17 @@
         <p class="subtitle">Zlagoda</p>
         <h1>Main Menu Cashier</h1>
         <div class="button-container">
-            <form action="/show-number-buyers" method="post">
-                <button type="submit" class="menu-button">Show number of buyers of each product</button>
+            <form action="./all-products" method="get">
+                <button type="submit" class="menu-button">All products</button>
             </form>
-            <form action="/show-same-clients" method="post">
-                <button type="submit" class="menu-button">Show sellers who sold products to all customers of another</button>
+            <form action="/all-products-in-store" method="post">
+                <button type="submit" class="menu-button">All products in store</button>
             </form>
-            <form action="/employee" method="post">
-                <button type="submit" class="menu-button">Add new employee</button>
+            <form action="/manage-regular-clients" method="post">
+                <button type="submit" class="menu-button">Manage regular clients</button>
             </form>
-            <form action="/regular-customer" method="post">
-                <button type="submit" class="menu-button">Add new regular customer</button>
-            </form>
-            <form action="/product-categories" method="post">
-                <button type="submit" class="menu-button">Add new product categories</button>
-            </form>
-            <form action="/product" method="post">
-                <button type="submit" class="menu-button">Add new product</button>
-            </form>
-            <form action="/in-store-product" method="post">
-                <button type="submit" class="menu-button">Add new in-store product</button>
+            <form action="/manage-check" method="post">
+                <button type="submit" class="menu-button">Manage check</button>
             </form>
         </div>
         <div class="blue-button-container">

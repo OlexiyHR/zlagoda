@@ -9,7 +9,7 @@ public interface OrderDao extends GenericDao<Order, Long>, AutoCloseable {
 
 	void saveOrderDishes(Order order);
 
-	List<Order> searchWaiterOrdersForToday(Long idWaiter, LocalDate date);
+	StringBuilder searchWaiterOrdersForToday(Long idWaiter, LocalDate date);
 
 	List<Order> searchUpreparedOrdersForToday(LocalDate date);
 

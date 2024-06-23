@@ -1,4 +1,4 @@
-package ua.training.controller.command.dish;
+package ua.training.controller.command.product;
 
 import ua.training.constants.Attribute;
 import ua.training.constants.Page;
@@ -9,7 +9,7 @@ import ua.training.controller.utils.RedirectionManager;
 import ua.training.entity.Dish;
 import ua.training.locale.Message;
 import ua.training.service.CategoryService;
-import ua.training.service.DishService;
+import ua.training.service.ProductService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,11 +23,11 @@ import java.util.Map;
 
 public class SearchMostPopularDishesPerPeriodCommand implements Command {
 
-	private final DishService dishService;
+	private final ProductService productService;
 	private final CategoryService categoryService;
 
-	public SearchMostPopularDishesPerPeriodCommand(DishService dishService, CategoryService categoryService) {
-		this.dishService = dishService;
+	public SearchMostPopularDishesPerPeriodCommand(ProductService productService, CategoryService categoryService) {
+		this.productService = productService;
 		this.categoryService = categoryService;
 	}
 
@@ -49,7 +49,7 @@ public class SearchMostPopularDishesPerPeriodCommand implements Command {
 			return RedirectionManager.REDIRECTION;
 		}
 
-		List<Dish> dishes = dishService.searchMostPopularDishesPerPeriod(LocalDate.parse(fromDate),
+		List<Dish> dishes = productService.searchMostPopularDishesPerPeriod(LocalDate.parse(fromDate),
 				LocalDate.parse(toDate));
 
 		if (dishes.isEmpty()) {
