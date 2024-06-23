@@ -104,7 +104,7 @@
             </form>
         </div>
         <div class="blue-button-container">
-            <form action="/user-profile" method="post">
+            <form action="/user-profile" method="get">
                 <button type="submit" class="blue-button">User profile</button>
             </form>
             <form action="/cashier" method="post">
