@@ -257,7 +257,7 @@ public class User {
 		builder.append("User [id=").append(id).append(", name=").append(name).append(", surname=").append(surname)
 				.append(", pathronymic=").append(pathronymic).append(", salary=").append(salary).append(", birth=")
 				.append(birth).append(", start=").append(start).append(", phone=").append(phone).append(", role=")
-				.append(role).append(", city=").append(city).append(", street=").append(street).append(", zip=")
+				.append(role).append(", city=").append(city).append(", street=").append(street).append(", zip=").append(zip)
 				.append(", email=").append(email).append(", password=").append(password).append("]");
 		return builder.toString();
 	}

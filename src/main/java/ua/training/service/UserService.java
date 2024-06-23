@@ -18,6 +18,7 @@ public class UserService {
 
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
 
+    static final String GET_USER_PROFILE = "Get user profile";
     static final String GET_ALL_USERS = "Get all users";
     static final String GET_USER_BY_ID = "Get user by id: %d";
     static final String GET_USER_BY_CREDENTIALS = "Get user by credentials: %s";
@@ -41,6 +42,8 @@ public class UserService {
     public static UserService getInstance() {
         return Holder.INSTANCE;
     }
+
+
 
     public List<User> getAllUsers() {
         LOGGER.info(GET_ALL_USERS);

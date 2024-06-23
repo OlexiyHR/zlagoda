@@ -48,7 +48,7 @@ public class JdbcUserDao implements UserDao {
 	private static String PHONE = "phone_number";
 	private static String CITY = "city";
 	private static String STREET = "street";
-	private static String CODE = "zip_code";
+	private static String ZIP = "zip_code";
 	private static String EMAIL = "email";
 	private static String PASSWORD = "password";
 
@@ -101,8 +101,8 @@ public class JdbcUserDao implements UserDao {
 		}
 		return user;
 	}
-	
-	@Override
+
+		@Override
 	public Optional<User> getUserByCredentials(String email, String password) {
 		Optional<User> user = Optional.empty();
 		try (PreparedStatement query = connection.prepareStatement(GET_BY_CREDENTIALS)) {
@@ -248,7 +248,7 @@ public class JdbcUserDao implements UserDao {
 				.setRole(Role.forValue(resultSet.getString(ROLE)))
 				.setCity(resultSet.getString(CITY))
 				.setStreet(resultSet.getString(STREET))
-				.setZip(resultSet.getString(CODE))
+				.setZip(resultSet.getString(ZIP))
 				.setEmail(resultSet.getString(EMAIL))
 				.setPassword(resultSet.getString(PASSWORD))
 				.build();
